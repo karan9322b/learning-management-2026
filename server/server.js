@@ -25,10 +25,14 @@ app.use(
 app.use(express.json());
 
 //database connection
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("mongodb is connected"))
-  .catch((e) => console.log(e));
+if (MONGO_URI && !MONGO_URI.includes("<username>")) {
+  mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log("mongodb is connected"))
+    .catch((e) => console.log(e));
+} else {
+  console.log("MongoDB: Remote URI configured with placeholder credentials");
+}
 
 //routes configuration
 app.use("/auth", authRoutes);
